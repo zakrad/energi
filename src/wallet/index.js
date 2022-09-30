@@ -1,10 +1,18 @@
-import { Col, Row, Button, Card } from 'antd';
+import { Col, Row, Button, Card, Space, Badge, Tooltip, Statistic, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider'
 import { ethers } from "ethers";
 import { AppService } from '../services/api.js'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { CopyOutlined, LinkOutlined } from '@ant-design/icons';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
+const { Title } = Typography;
 const appService = new AppService()
+const gridStyle = {
+    width: '100%'
+};
 
 export default function Wallet() {
     const { ethereum } = window
@@ -43,6 +51,7 @@ export default function Wallet() {
             } else if (accounts[0] !== currentAccount) {
                 setIsConnected(true)
                 setCurrentAccount(accounts[0])
+                // setCurrentAccount("0x29911158011f63c7368B86a43EB44Ae0d01c3065")
             }
         }
 
@@ -157,29 +166,74 @@ export default function Wallet() {
                                             </Button>
                             }
                         </>
-                    </Card> : <Card
-                        hoverable
-                        style={{
-                            width: "100%",
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <>
-                            {chainId !== 39797 ?
-                                <Button type="primary" loading={false} onClick={changeChain}>
-                                    Wrong Netwrok
-                                </Button>
-                                :
-                                <Button type="primary" loading={false} onClick={changeAccount}>
-                                    {currentAccount} {chainId} {balance} {price}
-                                </Button>
-                            }
-                        </>
-                    </Card>}
+                    </Card> :
+                        <Badge.Ribbon text={chainId !== 39797 ? 'Switch to Energy Network' : 'Connected'} color={chainId !== 39797 ? "red" : "green"}>
+                            <Card
+                                style={{
+                                    width: "100%",
+                                }}
+                            >
+                                <Card.Grid style={gridStyle} hoverable={false}>
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            display: 'flex',
+                                        }}>
+                                        <Space align="center" >
+                                            <img src={`/assets/icons/NRG2.svg`} width="40" alt="Logo" style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }} />
+                                            <Title level={4} type="secondary">
+                                                Energi Network
+                                            </Title>
+                                        </Space>
+
+                                    </div>
+                                </Card.Grid>
+                                <Card.Grid style={gridStyle}>
+                                    <div className="d-flex justify-content-between">
+                                        <Space align="center">
+                                            <img src={`/assets/metamask.svg`} width="40" alt="Logo" style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }} />
+                                            <Title level={4} type="secondary">
+                                                {currentAccount.slice(0, 5) + "..." + currentAccount.slice(34)}
+                                            </Title>
+                                        </Space>
+                                        <Space>
+                                            <CopyToClipboard text={currentAccount}
+                                                onCopy={() => { }}>
+                                                <Tooltip title="Copy">
+                                                    <Button type="dashed" shape="circle" icon={<CopyOutlined />} size="large" />
+                                                </Tooltip>
+                                            </CopyToClipboard>
+                                            <Tooltip title="Explorer">
+                                                <Button type="dashed" loading={false} shape="circle" size="large" icon={<LinkOutlined />} onClick={() => window.open(`https://explorer.energi.network/address/${currentAccount}`, '_blank').focus()} />
+                                            </Tooltip>
+                                        </Space>
+                                    </div>
+
+                                </Card.Grid>
+                                <Card.Grid style={gridStyle} hoverable={false}>
+                                    <div className="d-flex justify-content-between">
+                                        <img src={`/assets/icons/NRG.svg`} width="60" alt="Logo" style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }} />
+                                        <Statistic title="NRG Balance" value={(Math.round(balance * 100) / 100).toFixed(2)} />
+                                        <Statistic title="Total Balance" value={`$${(Math.round(price * balance * 100) / 100).toFixed(2)}`} />
+                                    </div>
+                                </Card.Grid>
+                            </Card>
+                        </Badge.Ribbon>
+                    }
                 </Col>
             </Row>
-        </div>
+        </div >
     )
 }
