@@ -213,7 +213,12 @@ function App() {
           margin: '20px',
           right: '0px'
         }} checked={isDarkMode} checkedChildren="Dark" unCheckedChildren="Light" onChange={toggleTheme} />
-        <Menu style={{ alignItems: "center" }} onClick={onClick} theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.pathname]} items={items} />
+        <Menu style={{
+          width: "100%",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }} onClick={onClick} theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.pathname]} items={items} />
       </Header>
       <Content
         className="site-layout"

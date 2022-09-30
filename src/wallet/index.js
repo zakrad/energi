@@ -155,11 +155,23 @@ export default function Wallet() {
                                     Loading
                                 </Button> :
                                 !isInstalled ?
-                                    <Button type="danger" loading={false} onClick={() => window.open("https://metamask.io/download/", '_blank').focus()}>
+                                    <Button style={{
+                                        width: "100%",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }} type="danger" loading={false} onClick={() => window.open("https://metamask.io/download/", '_blank').focus()}>
                                         Please Install Metamask!
                                     </Button>
                                     :
-                                    <Button type="primary" shape="round" style={{ background: "#14C38E", borderColor: "#14C38E" }} loading={false} onClick={onClickConnect}>
+                                    <Button type="primary" shape="round" style={{
+                                        width: "100%",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        background: "#14C38E",
+                                        borderColor: "#14C38E"
+                                    }} loading={false} onClick={onClickConnect}>
                                         Connect to Metamask
                                     </Button>
                             }
