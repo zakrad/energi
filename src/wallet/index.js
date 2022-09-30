@@ -119,7 +119,7 @@ export default function Wallet() {
         >
             <Row>
                 <Col span={12} offset={6}>
-                    <Card
+                    {!isConnected ? <Card
                         hoverable
                         style={{
                             width: "100%",
@@ -157,12 +157,29 @@ export default function Wallet() {
                                             </Button>
                             }
                         </>
-
-                    </Card>
+                    </Card> : <Card
+                        hoverable
+                        style={{
+                            width: "100%",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <>
+                            {chainId !== 39797 ?
+                                <Button type="primary" loading={false} onClick={changeChain}>
+                                    Wrong Netwrok
+                                </Button>
+                                :
+                                <Button type="primary" loading={false} onClick={changeAccount}>
+                                    {currentAccount} {chainId} {balance} {price}
+                                </Button>
+                            }
+                        </>
+                    </Card>}
                 </Col>
             </Row>
         </div>
     )
-
-
 }
