@@ -1,10 +1,10 @@
-import { Col, Row, Button, Card, Space, Badge, Tooltip, Statistic, Typography } from 'antd';
+import { Col, Row, Button, Card, Space, Badge, Tooltip, Statistic, Typography, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider'
 import { ethers } from "ethers";
 import { AppService } from '../services/api.js'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { CopyOutlined, LinkOutlined } from '@ant-design/icons';
+import { CopyOutlined, LinkOutlined, WalletTwoTone } from '@ant-design/icons';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -51,7 +51,6 @@ export default function Wallet() {
             } else if (accounts[0] !== currentAccount) {
                 setIsConnected(true)
                 setCurrentAccount(accounts[0])
-                // setCurrentAccount("0x29911158011f63c7368B86a43EB44Ae0d01c3065")
             }
         }
 
@@ -76,6 +75,11 @@ export default function Wallet() {
 
     }, [currentAccount, chainId])
 
+    const openNotificationWithIcon = (type) => {
+        notification[type]({
+            message: 'Copied!'
+        });
+    };
 
     const onClickConnect = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -127,7 +131,9 @@ export default function Wallet() {
             }}
         >
             <Row>
-                <Col span={12} offset={6}>
+                <Col xs={0} sm={0} md={0} lg={2} xl={6}>
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={18} xl={12}>
                     {!isConnected ? <Card
                         hoverable
                         style={{
@@ -152,22 +158,14 @@ export default function Wallet() {
                                     <Button type="danger" loading={false} onClick={() => window.open("https://metamask.io/download/", '_blank').focus()}>
                                         Please Install Metamask!
                                     </Button>
-                                    : !isConnected ?
-                                        <Button type="primary" shape="round" style={{ background: "#14C38E", borderColor: "#14C38E" }} loading={false} onClick={onClickConnect}>
-                                            Connect to Metamask
-                                        </Button>
-                                        : chainId !== 39797 ?
-                                            <Button type="primary" loading={false} onClick={changeChain}>
-                                                Wrong Netwrok
-                                            </Button>
-                                            :
-                                            <Button type="primary" loading={false} onClick={changeAccount}>
-                                                {currentAccount} {chainId} {balance} {price}
-                                            </Button>
+                                    :
+                                    <Button type="primary" shape="round" style={{ background: "#14C38E", borderColor: "#14C38E" }} loading={false} onClick={onClickConnect}>
+                                        Connect to Metamask
+                                    </Button>
                             }
                         </>
                     </Card> :
-                        <Badge.Ribbon text={chainId !== 39797 ? 'Switch to Energy Network' : 'Connected'} color={chainId !== 39797 ? "red" : "green"}>
+                        <Badge.Ribbon text={chainId !== 39797 ? 'Not Connected' : 'Connected'} color={chainId !== 39797 ? "red" : "green"}>
                             <Card
                                 style={{
                                     width: "100%",
@@ -185,14 +183,18 @@ export default function Wallet() {
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                             }} />
-                                            <Title level={4} type="secondary">
+                                            <Title level={4}>
                                                 Energi Network
                                             </Title>
+                                            {chainId !== 39797 ?
+                                                <Button type="primary" size="large" shape="round" onClick={changeChain}>
+                                                    Switch to Energi Network
+                                                </Button>
+                                                : ''}
                                         </Space>
-
                                     </div>
                                 </Card.Grid>
-                                <Card.Grid style={gridStyle}>
+                                <Card.Grid disabled={chainId !== 39797} style={gridStyle}>
                                     <div className="d-flex justify-content-between">
                                         <Space align="center">
                                             <img src={`/assets/metamask.svg`} width="40" alt="Logo" style={{
@@ -203,10 +205,12 @@ export default function Wallet() {
                                             <Title level={4} type="secondary">
                                                 {currentAccount.slice(0, 5) + "..." + currentAccount.slice(34)}
                                             </Title>
+                                            <Button type="secondary" size="large" shape="circle" icon={<WalletTwoTone />} onClick={changeAccount}>
+                                            </Button>
                                         </Space>
                                         <Space>
                                             <CopyToClipboard text={currentAccount}
-                                                onCopy={() => { }}>
+                                                onCopy={() => openNotificationWithIcon('success')}>
                                                 <Tooltip title="Copy">
                                                     <Button type="dashed" shape="circle" icon={<CopyOutlined />} size="large" />
                                                 </Tooltip>
@@ -218,7 +222,7 @@ export default function Wallet() {
                                     </div>
 
                                 </Card.Grid>
-                                <Card.Grid style={gridStyle} hoverable={false}>
+                                <Card.Grid disabled={chainId !== 39797} style={gridStyle} hoverable={false}>
                                     <div className="d-flex justify-content-between">
                                         <img src={`/assets/icons/NRG.svg`} width="60" alt="Logo" style={{
                                             display: 'flex',
@@ -232,6 +236,8 @@ export default function Wallet() {
                             </Card>
                         </Badge.Ribbon>
                     }
+                </Col>
+                <Col xs={0} sm={0} md={0} lg={2} xl={6}>
                 </Col>
             </Row>
         </div >
