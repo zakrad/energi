@@ -73,7 +73,7 @@ export default function Wallet() {
         }
         getPrice()
 
-    }, [currentAccount, chainId])
+    }, [currentAccount, chainId, ethereum, isConnected])
 
     const openNotificationWithIcon = (type) => {
         notification[type]({
