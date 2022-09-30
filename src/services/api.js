@@ -8,8 +8,10 @@ export class AppService {
         const response = await axios.request(options)
         const assets = response.data
         const assetsA = Object.values(assets)
-        console.log(assetsA);
-        return assetsA
+        const assetsSorted = assetsA.sort((a, b) => {
+            return b.last_price - a.last_price;
+        });
+        return assetsSorted
     }
 
     async getPrice() {
@@ -19,7 +21,6 @@ export class AppService {
         };
         const response = await axios.request(options)
         const price = response.data.market_data.current_price.usd
-        console.log(price);
         return price
     }
 

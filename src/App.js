@@ -1,4 +1,4 @@
-import { Layout, Menu, Table, Col, Row } from 'antd';
+import { Layout, Menu, Table, Col, Row, Switch } from 'antd';
 import React, { useState } from 'react';
 import './App.css';
 import { HomeOutlined, WalletOutlined } from '@ant-design/icons';
@@ -67,32 +67,6 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    symbol: "BTC",
-    last_price: 60
-  },
-  {
-    key: '1',
-    name: 'John Brown',
-    symbol: "BTC",
-    last_price: 0.6000
-  },
-  {
-    key: '1',
-    name: 'John Brown',
-    symbol: "BTC",
-    last_price: 0.00000060000
-  },
-  {
-    key: '1',
-    name: 'John Brown',
-    symbol: "BTC",
-    last_price: 0.00600
-  },
-];
 
 
 
@@ -125,8 +99,7 @@ function App() {
           width: '100%',
         }}
       >
-        <div className="logo" />
-        <Menu onClick={onClick} theme="dark" mode="horizontal" defaultSelectedKeys={["/"]} items={items} />
+        <Menu style={{ alignItems: "center" }} onClick={onClick} theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.pathname]} items={items} />
       </Header>
       <Content
         className="site-layout"
@@ -145,11 +118,15 @@ function App() {
               }}
             >
               <Row>
-                <Col span={12} offset={6}>
+                <Col xs={0} sm={0} md={0} lg={2} xl={6}>
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={18} xl={12}>
                   <Table columns={columns} dataSource={assets} onChange={onChange} />
                 </Col>
+                <Col xs={0} sm={0} md={0} lg={2} xl={6}>
+                  <Switch style={{ margin: "20px" }} checkedChildren="Dark" unCheckedChildren="Light" defaultUnChecked />
+                </Col>
               </Row>
-
             </div>
           }>
 
