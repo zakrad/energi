@@ -4,12 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const themes = {
+  dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
+  light: `${process.env.PUBLIC_URL}/light-theme.css`,
+};
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeSwitcherProvider themeMap={themes} defaultTheme="light">
+        <App />
+      </ThemeSwitcherProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -11,6 +11,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import Wallet from './wallet';
+import { useThemeSwitcher } from "react-css-theme-switcher";
 
 const appService = new AppService()
 
@@ -74,6 +75,8 @@ const columns = [
 function App() {
 
   const [assets, setAssets] = useState([])
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const { switcher, themes } = useThemeSwitcher()
   const navigate = useNavigate()
   const onClick = ({ key }) => {
     navigate(key)
@@ -90,6 +93,11 @@ function App() {
     getAssets()
   }, [])
 
+  const toggleTheme = (isChecked) => {
+    setIsDarkMode(isChecked);
+    switcher({ theme: isChecked ? themes.dark : themes.light });
+  };
+
   return (
     <Layout>
       <Header
@@ -97,8 +105,14 @@ function App() {
           position: 'fixed',
           zIndex: 1,
           width: '100%',
+          display: 'flex',
         }}
       >
+        <Switch style={{
+          position: 'absolute',
+          margin: '20px',
+          right: '0px'
+        }} checked={isDarkMode} checkedChildren="Dark" unCheckedChildren="Light" onChange={toggleTheme} />
         <Menu style={{ alignItems: "center" }} onClick={onClick} theme="dark" mode="horizontal" defaultSelectedKeys={[window.location.pathname]} items={items} />
       </Header>
       <Content
@@ -124,7 +138,6 @@ function App() {
                   <Table columns={columns} dataSource={assets} onChange={onChange} />
                 </Col>
                 <Col xs={0} sm={0} md={0} lg={2} xl={6}>
-                  <Switch style={{ margin: "20px" }} checkedChildren="Dark" unCheckedChildren="Light" defaultUnChecked />
                 </Col>
               </Row>
             </div>

@@ -15,6 +15,7 @@
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
+    "react-css-theme-switcher": "^0.3.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
@@ -49,5 +50,14 @@
   },
   "main": "index.js",
   "author": "saxon <1@1.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.12",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-less": "^5.0.0",
+    "gulp-postcss": "^9.0.1",
+    "less-plugin-npm-import": "^2.1.0"
+  }
 }
