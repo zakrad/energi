@@ -14,7 +14,7 @@ const gridStyle = {
     width: '100%'
 };
 
-export default function Wallet() {
+export default function Wallet({ formatter }) {
     const { ethereum } = window
     const [isLoading, setIsLoading] = useState(true);
     const [isConnected, setIsConnected] = useState(false);
@@ -242,7 +242,7 @@ export default function Wallet() {
                                             justifyContent: 'center',
                                         }} />
                                         <Statistic title="NRG Balance" value={(Math.round(balance * 100) / 100).toFixed(2)} />
-                                        <Statistic title="Total Balance" value={`$${(Math.round(price * balance * 100) / 100).toFixed(2)}`} />
+                                        <Statistic title="Total Balance" value={formatter.format(price * balance)} />
                                     </div>
                                 </Card.Grid>
                             </Card>

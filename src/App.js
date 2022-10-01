@@ -48,6 +48,11 @@ function App() {
     navigate(key)
   }
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div
@@ -166,7 +171,7 @@ function App() {
         multiple: 1,
       },
       render: (item) => {
-        return <>${(Math.round(item * 100) / 100).toFixed(2)}</>;
+        return <>{formatter.format(item)}</>;
       }
     },
   ];
@@ -250,7 +255,7 @@ function App() {
 
           </Route>
           <Route path="/wallet" element={
-            <Wallet />
+            <Wallet formatter={formatter} />
           }>
           </Route>
         </Routes>
