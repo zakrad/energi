@@ -33,8 +33,6 @@ const onChange = (pagination, filters, sorter, extra) => {
 const { Header, Content, Footer } = Layout;
 
 
-
-
 function App() {
 
   const [assets, setAssets] = useState([])
